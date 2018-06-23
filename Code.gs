@@ -1,3 +1,13 @@
+// SHEET IDS
+
+// Robustified Index Master: 1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q
+// Test Rig iQA: 1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE
+
+
+// Alison Copywriting: 1O1t3I_BYILVjmiLXPeu_BGWIYU009XixjsdD1A8DOVM
+// Test Rig iWriter: 1Q8e2DdTJKvbftownVCKKbhT2OFvXsqh2IHb9SYpl2LE
+
+
 
 function onOpen2(){  
 
@@ -19,10 +29,10 @@ function onOpen2(){
 
 function pEv(){
  
-  var iEventID = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Event ID"); // locates Event ID sheet
+  var iEventID = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Event ID"); // locates Event ID sheet
   var ePs2 = iEventID.getRange("ad3:ad1991").getValues(); // creates an array of column 30 in Event ID sheet where the holding ID of events that have yet to be QA'd
   var ePfull = iEventID.getRange("a3:as1991").getValues(); // takes all Event ID and makes it an array
-  var evQueue = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Event QA"); // Locates the Event QA sheet
+  var evQueue = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Event QA"); // Locates the Event QA sheet
   
   for (var i=2; i < 1990; i++){
     
@@ -64,7 +74,7 @@ function pEv(){
   
 function pCopy(){
   
-  var iEventID = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Event ID"); // locates Event ID sheet
+  var iEventID = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Event ID"); // locates Event ID sheet
   var ePs = iEventID.getRange("aj3:aj1991").getValues(); // creates an array of column 36 in Event ID sheet where the holding ID of to be drafted events is kept
   var ePfull = iEventID.getRange("a3:bj1991").getValues();
   
@@ -72,7 +82,7 @@ function pCopy(){
     
     if(ePs[i] > 0){
      
-      var pEvents = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Passed Events"); // Locates the Passed Events sheet
+      var pEvents = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Passed Events"); // Locates the Passed Events sheet
       var print = pEvents.getRange(1,1).getValue(); // identifies where to print the details
       var xUser = ePfull[i][1];
       var xCompany = ePfull[i][2];
@@ -97,11 +107,11 @@ function pCopy(){
 
 function qCopy() {
   
-  var Karen = SpreadsheetApp.openById("11Vy-fUMSHGbkXf5hnlIHna1uCNHhK7uPT4rPSwxZf6Y").getSheetByName("Event Queue");
+  var Karen = SpreadsheetApp.openById("1Q8e2DdTJKvbftownVCKKbhT2OFvXsqh2IHb9SYpl2LE").getSheetByName("Event Queue");
   var Ronnie = SpreadsheetApp.openById("1ixgXOMUT9PHOyKeV5K1XCEmGnSg-B2k0hjQtQyZn3FU").getSheetByName("Event Queue");
   var Alison = SpreadsheetApp.openById("1O1t3I_BYILVjmiLXPeu_BGWIYU009XixjsdD1A8DOVM").getSheetByName("Event Queue");
-  var eventIDss = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Event ID");
-  var passEvent = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Passed Events");
+  var eventIDss = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Event ID");
+  var passEvent = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Passed Events");
   var cWriters = passEvent.getRange("b2:C102").getValues(); // copywriter IDs
   var ePfull = eventIDss.getRange("a3:bj1991").getValues(); // takes all Event ID and makes it an array
   
@@ -129,7 +139,7 @@ function qCopy() {
       var xCEmail = ePfull[eID][8]; // contact email 
       var xDate = ePfull[eID][16]; // event Date
       var xRole = ePfull[eID][12]; // contact Role
-      //var xRole = ePfull[eID][12]; // account homepage
+      var xUstory = ePfull[eID][11]; // user story
        
       
       var ronps = Ronnie.getRange(1,1).getValue();
@@ -145,7 +155,8 @@ function qCopy() {
       Ronnie.getRange(ronp+4,4).setValue(xEURL);
       Ronnie.getRange(ronp+4,6).setValue(xLink);
       Ronnie.getRange(ronp+4,5).setValue(xLabel);
-     
+      Ronnie.getRange(ronp+11,5).setValue(xRole);
+      Ronnie.getRange(ronp+11,6).setValue(xUstory);
       
       eventIDss.getRange(preID+2,37).setValue("Ronnie");
      
@@ -170,8 +181,10 @@ function qCopy() {
       var xCEmail = ePfull[eID][8]; // contact email 
       var xDate = ePfull[eID][16]; // event Date
       var xRole = ePfull[eID][12]; // contact Role
-      //var xRole = ePfull[eID][12]; // account homepage
+      var xUstory = ePfull[eID][11]; // user story
       
+      Logger.log(xRole);
+      Logger.log(xUstory);
       
       var karens = Karen.getRange(1,1).getValue();
       var karp = karens*10;
@@ -186,7 +199,9 @@ function qCopy() {
       Karen.getRange(karp+4,4).setValue(xEURL);
       Karen.getRange(karp+4,6).setValue(xLink);
       Karen.getRange(karp+4,5).setValue(xLabel);
-     
+      Karen.getRange(karp+10,5).setValue(xRole);
+      Karen.getRange(karp+10,6).setValue(xUstory);     
+
       
       eventIDss.getRange(preID+2,37).setValue("Karen");  
       
@@ -210,7 +225,7 @@ function qCopy() {
       var xCEmail = ePfull[eID][8]; // contact email 
       var xDate = ePfull[eID][16]; // event Date
       var xRole = ePfull[eID][12]; // contact Role
-      //var xRole = ePfull[eID][12]; // account homepage
+      var xUstory = ePfull[eID][11]; // user story
       
       
       var alisons = Alison.getRange(1,1).getValue();
@@ -226,6 +241,8 @@ function qCopy() {
       Alison.getRange(ali+4,4).setValue(xEURL);
       Alison.getRange(ali+4,6).setValue(xLink);
       Alison.getRange(ali+4,5).setValue(xLabel);
+      Alison.getRange(ronp+11,5).setValue(xRole);
+      Alison.getRange(ronp+11,6).setValue(xUstory);
      
       
       eventIDss.getRange(preID+2,37).setValue("Alison");  
@@ -280,11 +297,11 @@ function eventQA2() {
 
 function uHop(){
   
-  var eventIDss = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Event ID");
-  var hopper = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Hopper");
+  var eventIDss = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Event ID");
+  var hopper = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Hopper");
   var ePfull = eventIDss.getRange("a3:bj1991").getValues(); // takes all Event ID and makes it an array
   var qcSearch = hopper.getRange("a2:c400").getValues();
-  var swu = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Sendwithus");
+  var swu = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Sendwithus");
   
   for (var b = 0; b < 390; b++){
    
@@ -432,11 +449,11 @@ function uHop(){
   
  function uHop2(){ 
    
-  var eventIDss = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Event ID");
-  var hopper = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Hopper");
+  var eventIDss = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Event ID");
+  var hopper = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Hopper");
   var ePfull = eventIDss.getRange("a3:bf1991").getValues(); // takes all Event ID and makes it an array
   var qcSearch = hopper.getRange("a2:c400").getValues();
-  var swu = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Sendwithus");
+  var swu = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Sendwithus");
   
   
   for(var i = 0; i < 1990; i++){
@@ -504,9 +521,9 @@ function uHop(){
 function Email(){
   
   
-  var eventIDss = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Event ID");
+  var eventIDss = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Event ID");
   var ePfull = eventIDss.getRange("a3:bf1990").getValues(); // takes all Event ID and makes it an array
-  var swu = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Sendwithus");
+  var swu = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Sendwithus");
   var renew = swu.getRange("a3:a400");
   renew.clear();
   
@@ -588,7 +605,7 @@ function SWUclear() {
 
 function data() {
   
-  var eventIDss = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Event ID");
+  var eventIDss = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Event ID");
   var ePfull = eventIDss.getRange("a3:bf1991").getValues(); // takes all Event ID and makes it an array
   var users = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("User List"); 
   var user = users.getRange("j2:j36").getValues(); // makes an array of the user list
