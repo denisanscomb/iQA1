@@ -2,7 +2,7 @@
 
 // Robustified Index Master: 1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q
 // Test Rig iQA: 1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q
-
+// 1301 Data Storage: 1W8ECF6uqytFJJ927CH3Z5-Ki5sYR0mgv69UWHRt-wSk
 
 // Alison Copywriting: 1O1t3I_BYILVjmiLXPeu_BGWIYU009XixjsdD1A8DOVM
 // Test Rig iWriter: 1O1t3I_BYILVjmiLXPeu_BGWIYU009XixjsdD1A8DOVM
@@ -269,10 +269,14 @@ function eventQA2() {
   
   var eventQAss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Event QA");
   var eventIDss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Event ID");
+  var robo = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Raw Upload");
+  var ss1 = SpreadsheetApp.openById("1W8ECF6uqytFJJ927CH3Z5-Ki5sYR0mgv69UWHRt-wSk").getSheetByName("Sheet1"); // locates 1301 Data Storage
+  var data = ss1.getRange(2,1,2000,1).getValues(); // sets an array of the last 2000 events 
   var qArea = eventQAss.getRange("a3:m253").getValues();
   var tDate = new Date();
   
-  Logger.log(qArea[2][4]);
+  var SQL = ss1.getRange("A1:A2000").getValues();
+ 
   
   for(var i = 0; i < 250; i++){
     
@@ -291,14 +295,28 @@ function eventQA2() {
      var desc = eventIDss.getRange(qArea[i][0]+2,31).getValue();
      var user = eventIDss.getRange(qArea[i][0]+2,2).getValue();
      var id = eventIDss.getRange(qArea[i][0]+2,1).getValue();
+     var contact = eventIDss.getRange(qArea[i][0]+2,6).getValue();
       
      MailApp.sendEmail(eM,user, desc + "      " + qA + "     " + qAComm + "    Event ID " + id);
       
       
-     
+      // this clause adds the QA'd events to the information on the event already in 1301
+      
+    
+    var label = qArea[i][12];  // the label column
+    var analyst = eM;
+    var id = robo.getRange(qArea[i][0]+1,24);
+      for (var z = 0; z<2000; z++){
+        var blah = SQL[z];
+        var lame = blah.toString();
+        if(lame.indexOf("indexed2")<0 && lame.indexOf(user)>=0 &&  lame.indexOf(contact)>=0 && lame.indexOf(id)>=0){ 
+            var big = [blah,analyst,tDate,label,"indexed2"];
+            var newblah = big.join();
+            ss1.getRange(z+1,1).setValue(newblah);
+          
+        }      
+      }
     }
-   
- 
   }
   
  eventQAss.getRange("A3:s253").clearContent();
