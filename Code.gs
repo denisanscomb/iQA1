@@ -1,8 +1,8 @@
 // SHEET IDS
 
 // Robustified Index Master: 1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q
-// Test Rig iQA: 1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE
-// 1301 Data Storage: 1W8ECF6uqytFJJ927CH3Z5-Ki5sYR0mgv69UWHRt-wSk
+// Test Rig iQA: 1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q
+
 
 // Alison Copywriting: 1O1t3I_BYILVjmiLXPeu_BGWIYU009XixjsdD1A8DOVM
 // Test Rig iWriter: 1O1t3I_BYILVjmiLXPeu_BGWIYU009XixjsdD1A8DOVM
@@ -269,21 +269,17 @@ function eventQA2() {
   
   var eventQAss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Event QA");
   var eventIDss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Event ID");
-  var robo = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Raw Upload");
-  var ss1 = SpreadsheetApp.openById("1W8ECF6uqytFJJ927CH3Z5-Ki5sYR0mgv69UWHRt-wSk").getSheetByName("Sheet2"); // locates 1301 Data Storage
-  var data = ss1.getRange(2,1,2000,1).getValues(); // sets an array of the last 2000 events 
   var qArea = eventQAss.getRange("a3:m253").getValues();
   var tDate = new Date();
   
-  
-  var SQL = ss1.getRange("A1:A4000").getValues();
- 
+  Logger.log(qArea[2][4]);
   
   for(var i = 0; i < 250; i++){
     
     if(qArea[i][12] !== ""){    // this is the QA label column
       
-     
+      Logger.log(qArea[i][12]);
+      Logger.log(qArea[i][0]);
       
      eventIDss.getRange(qArea[i][0]+2,27).setValue(qArea[i][12]); // writes the event QA label to Event ID
      eventIDss.getRange(qArea[i][0]+2,26).setValue(qArea[i][11]); // writes the event QA notes to Event ID
@@ -295,43 +291,14 @@ function eventQA2() {
      var desc = eventIDss.getRange(qArea[i][0]+2,31).getValue();
      var user = eventIDss.getRange(qArea[i][0]+2,2).getValue();
      var id = eventIDss.getRange(qArea[i][0]+2,1).getValue();
-     var contact = eventIDss.getRange(qArea[i][0]+2,6).getValue();
       
      MailApp.sendEmail(eM,user, desc + "      " + qA + "     " + qAComm + "    Event ID " + id);
       
       
-      // this clause adds the QA'd events to the information on the event already in 1301
-      
-    
-    var label = qArea[i][8];  // the label column
-    var analyst = eM;
-    var QA = qArea[i][12];  // the label column
-    var idg = robo.getRange(qArea[i][0]+1,24).getValue();
-   //   Logger.log("does it get to prep?")
-     //  Logger.log(user)
-     //   Logger.log(contact)
-     //   Logger.log(qArea[i][0]+1)
-     //   Logger.log(idg)
-        
-        
-      for (var z = 0; z<4000; z++){
-        var blah = SQL[z];
-        var lame = blah.toString();
-      
-        if(lame.indexOf("indexed2")<0 && lame.indexOf(user)>=0 &&  lame.indexOf(contact)>0 && lame.indexOf(idg)>0){ 
-           var big = [blah,analyst,tDate,label,QA,"indexed2"];
-            var newblah = big.join();
-         // Logger.log("first a get")
-             var t = ss1.getRange(z+1,1).getValue();
-         // Logger.log(t)
-            ss1.getRange(z+1,1).setValue(newblah);
-         // Logger.log(z+1)
-         // Logger.log(newblah)
-         // Logger.log("action")
-         
-        }      
-      }
+     
     }
+   
+ 
   }
   
  eventQAss.getRange("A3:s253").clearContent();
@@ -682,72 +649,6 @@ function data() {
      }
    }
   }
-
-
-function backfill(){ // temp function to add historical QA'd events to the 1301 Data Storage sheet
-
-
-  var eventIDss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Event ID");
-  var robo = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Raw Upload");
-  var ss1 = SpreadsheetApp.openById("1W8ECF6uqytFJJ927CH3Z5-Ki5sYR0mgv69UWHRt-wSk").getSheetByName("Sheet2"); // locates 1301 Data Storage
-  var data = ss1.getRange(2,1,12000,1).getValues(); // sets an array of the last 12000 events 
-  var data2 = robo.getRange(1620,1,250,26).getValues();
-  var data3 = eventIDss.getRange(1621,1,250,30).getValues();
-  
-  var SQL = ss1.getRange("A1:A12000").getValues();
-  
-  var tDate = new Date();
-  
-  // for the area in question
-  
-  for(var i = 0; i < 250; i++){
-    if(data2[i][23] !=""){
-      
-    
-    var label = data3[i][14];
-      var check = data3[i][0];
-      var QA = data3[i][26];
-    
-    var analyst = data2[i][17];
-    var id = data2[i][23];
-    var user = data2[i][1];
-    var contact = data2[i][5];
-    
- //   Logger.log(label)
- //   Logger.log(analyst)
- //   Logger.log(id)
- //   Logger.log(user)
- //   Logger.log(contact)
-   
-    
-    // this is the adder:
-     for (var z = 0; z<12000; z++){
-       var blah = SQL[z];
-       var lame = blah.toString();
-      // Logger.log(lame.indexOf(id))
-       
-       if(lame.indexOf("indexed2")<0 && lame.indexOf(user)>=0 &&  lame.indexOf(contact)>=0 && lame.indexOf(id)>=0){ 
-          var big = [blah,analyst,tDate,label,QA,"indexed2"];
-          var newblah = big.join();
-           ss1.getRange(z+1,1).setValue(newblah);
-       
-        // Logger.log(label)
-         //  Logger.log(newblah)
-       //  Logger.log(QA)
-      //   Logger.log(id)
-      //   Logger.log(user)
-     //    Logger.log(contact)
-    //     Logger.log(z+1)
-         
-    //      Logger.log(newblah)
-        // Logger.log(z+1)
-          
-        }      
-      
-  }
-    }
-  }
-}
 
 
 
