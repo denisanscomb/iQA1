@@ -31,10 +31,10 @@ function onOpen2(){
 
 function pEv(){
  
-  var iEventID = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Event ID"); // locates Event ID sheet
+  var iEventID = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Event ID"); // locates Event ID sheet
   var ePs2 = iEventID.getRange("ad3:ad1991").getValues(); // creates an array of column 30 in Event ID sheet where the holding ID of events that have yet to be QA'd
   var ePfull = iEventID.getRange("a3:as1991").getValues(); // takes all Event ID and makes it an array
-  var evQueue = SpreadsheetApp.openById("1-5Vf4LbGOI29eVabBluk8WoHg5-8qJkzhgazLdLtVDE").getSheetByName("Event QA"); // Locates the Event QA sheet
+  var evQueue = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Event QA"); // Locates the Event QA sheet
   
   for (var i=2; i < 1990; i++){
     
@@ -283,11 +283,7 @@ function eventQA2() {
     
     if(qArea[i][12] !== ""){    // this is the QA label column
       
-      Logger.log("it is picked up OK")
-      Logger.log(i)
-      
-     // Logger.log(qArea[i][12]);
-   //   Logger.log(qArea[i][0]);
+     
       
      eventIDss.getRange(qArea[i][0]+2,27).setValue(qArea[i][12]); // writes the event QA label to Event ID
      eventIDss.getRange(qArea[i][0]+2,26).setValue(qArea[i][11]); // writes the event QA notes to Event ID
@@ -301,7 +297,7 @@ function eventQA2() {
      var id = eventIDss.getRange(qArea[i][0]+2,1).getValue();
      var contact = eventIDss.getRange(qArea[i][0]+2,6).getValue();
       
-    // MailApp.sendEmail(eM,user, desc + "      " + qA + "     " + qAComm + "    Event ID " + id);
+     MailApp.sendEmail(eM,user, desc + "      " + qA + "     " + qAComm + "    Event ID " + id);
       
       
       // this clause adds the QA'd events to the information on the event already in 1301
@@ -311,28 +307,27 @@ function eventQA2() {
     var analyst = eM;
     var QA = qArea[i][12];  // the label column
     var idg = robo.getRange(qArea[i][0]+1,24).getValue();
-      Logger.log("does it get to prep?")
-       Logger.log(user)
-        Logger.log(contact)
-        Logger.log(qArea[i][0]+1)
-        Logger.log(idg)
+   //   Logger.log("does it get to prep?")
+     //  Logger.log(user)
+     //   Logger.log(contact)
+     //   Logger.log(qArea[i][0]+1)
+     //   Logger.log(idg)
         
         
       for (var z = 0; z<4000; z++){
         var blah = SQL[z];
         var lame = blah.toString();
-       //  if(lame.indexOf(idg)>0){ 
       
         if(lame.indexOf("indexed2")<0 && lame.indexOf(user)>=0 &&  lame.indexOf(contact)>0 && lame.indexOf(idg)>0){ 
            var big = [blah,analyst,tDate,label,QA,"indexed2"];
             var newblah = big.join();
-          Logger.log("first a get")
+         // Logger.log("first a get")
              var t = ss1.getRange(z+1,1).getValue();
-          Logger.log(t)
+         // Logger.log(t)
             ss1.getRange(z+1,1).setValue(newblah);
-          Logger.log(z+1)
-          Logger.log(newblah)
-          Logger.log("action")
+         // Logger.log(z+1)
+         // Logger.log(newblah)
+         // Logger.log("action")
          
         }      
       }
