@@ -344,36 +344,42 @@ function uHop(){
   var eventIDss = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Event ID");
   var hopper = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Hopper");
   var ePfull = eventIDss.getRange("a3:bj1991").getValues(); // takes all Event ID and makes it an array
-  var qcSearch = hopper.getRange("a2:c400").getValues();
+  var qcSearch = hopper.getRange("a2:f400").getValues(); // array of Hopper
   var swu = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Sendwithus");
   
   for (var b = 0; b < 390; b++){
    
-    var hop = qcSearch[b][2];
+    var hop = qcSearch[b][2]; // b = 7
     
     if(hop =="Push to Email"){
-     
-      var nHead = hopper.getRange(b-2,5).getValue();
-      var nGreet = hopper.getRange(b-1,5).getValue();
-      var nBody = hopper.getRange(b,5).getValue();
-      var eNum = hopper.getRange(b-5,1).getValue();
-      var note = hopper.getRange(b+1,4).getValue();
-      var ch1 = hopper.getRange(b-2,4).getValue();
-      var ch2 = hopper.getRange(b-1,4).getValue();
-      var ch3 = hopper.getRange(b,4).getValue();
+      
+      var nHead = qcSearch[b-4][4]
+      var nGreet = qcSearch[b-3][4]
+      var nBody = qcSearch[b-2][4]
+      var eNum = qcSearch[b-7][0]
+      var note = qcSearch[b-1][3]
+      var ch1 = qcSearch[b-4][3]
+      var ch2 = qcSearch[b-3][3]
+      var ch3 = qcSearch[b-2][3]
+      var enote = qcSearch[b-5][1]
+      var newenote = qcSearch[b-6][2]
+      var URL = qcSearch[b-5][3]
+      var label = qcSearch[b-5][4]
       var eID = ePfull[eNum-1][0];
       var cEm = ePfull[eNum-1][40];
-        
-      if(ch1 !== "" || ch2 !== "" || ch3 !== ""){    // if any of the overrides (edit boxes) have been used then var ch is declared as "Change" 
+      
+     
+      
+      if(ch1 !== "" || ch2 !== "" || ch3 !== "" || newenote !== ""){    // if any of the overrides (edit boxes) have been used then var ch is declared as "Change" 
                                                      // note logical operators || is OK, && is AND, ! is NOT
        var ch = "Change";
         
       MailApp.sendEmail(cEm + "," + "denis.anscomb@gmail.com", "Change made to bmail to " 
                         + ePfull[eNum-1][1] + " for event " + eNum, "Hi " + ePfull[eNum-1][36] 
-                        + "  The copy linked to this event was edited:  " 
-                        + ePfull[eNum-1][30] + "  " + "                 From:                              "+ ePfull[eNum-1][32] + "  "
-                        + ePfull[eNum-1][33] + "  " + ePfull[eNum-1][34]
-                        + "         To:                      " + nHead + " . " +nGreet + "  " + nBody 
+                       + "  The copy linked to this event was edited:  " 
+                      + ePfull[eNum-1][30] + "  " + "                 From:                              "+ ePfull[eNum-1][32] + "  "
+                        + ePfull[eNum-1][33] + "  " + ePfull[eNum-1][34]  
+                        + "         To:                      " + newenote + "    " + nHead + " . " +nGreet + "  " + nBody 
                         + "            Note:                            " + note);  // feedback email to writers
       
       }
@@ -387,6 +393,12 @@ function uHop(){
       eventIDss.getRange(qc+2,54).setValue(nBody);
       eventIDss.getRange(qc+2,38).setValue("email");
       eventIDss.getRange(qc+2,56).setValue(note);
+      eventIDss.getRange(qc+2,52).setValue("Archive");
+      eventIDss.getRange(qc+2,32).setValue("");
+      eventIDss.getRange(qc+2,38).setValue("");
+      if(newenote !== ""){eventIDss.getRange(qc+2,14).setValue(newenote);}
+      
+      hopper.getRange(b-4,3).clearContent();
       
       hopper.getRange(b-2,4).clearContent();
       hopper.getRange(b-1,4).clearContent();
@@ -412,20 +424,22 @@ function uHop(){
       
     }else if(hop =="Leave in Queue"){
       
-      var nHead = hopper.getRange(b-2,5).getValue();
-      var nGreet = hopper.getRange(b-1,5).getValue();
-      var nBody = hopper.getRange(b,5).getValue();
-      var note = hopper.getRange(b+1,4).getValue();
+      var nHead = qcSearch[b-4][4]
+      var nGreet = qcSearch[b-3][4]
+      var nBody = qcSearch[b-2][4]
+      var note = qcSearch[b-1][3]
+     
       
       var qc = qcSearch[b-7][0];
-      Logger.log(qc);
-      Logger.log(b);
+      //Logger.log(qc);
+     // Logger.log(b);
       
       eventIDss.getRange(qc+2,49).setValue(nHead);
       eventIDss.getRange(qc+2,53).setValue(nGreet);
       eventIDss.getRange(qc+2,54).setValue(nBody);
       eventIDss.getRange(qc+2,56).setValue(note);
       
+      hopper.getRange(b-4,3).clearContent();
       hopper.getRange(b-2,4).clearContent();
       hopper.getRange(b-1,4).clearContent();
       hopper.getRange(b,4).clearContent();
@@ -466,6 +480,7 @@ function uHop(){
       eventIDss.getRange(qc+2,38).setValue("");
       eventIDss.getRange(qc+2,56).setValue(note);
       
+      hopper.getRange(b-4,3).clearContent();
       hopper.getRange(b-2,4).clearContent();
       hopper.getRange(b-1,4).clearContent();
       hopper.getRange(b,4).clearContent();
@@ -486,6 +501,9 @@ function uHop(){
       hopper.getRange(b+2,3).clearContent();
       hopper.getRange(b+1,4).clearContent();
     
+ 
+     
+      
   }
   }
 }
@@ -500,7 +518,7 @@ function uHop(){
   var swu = SpreadsheetApp.openById("1sEjzhq96me6aaQLIBqY6Wfgy9D6VrKhtHL9eUoqyT2Q").getSheetByName("Sendwithus");
   
   
-  for(var i = 0; i < 1990; i++){
+  for(var i = 0; i < 1988; i++){
     
       var drCop = ePfull[i][31]; // looking for any Events in drafted status. 
       var eIDpre = ePfull[i][0];
